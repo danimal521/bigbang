@@ -1,0 +1,81 @@
+domain: bigbang.dev
+
+flux:
+  interval: 1m
+  rollback:
+    cleanupOnFail: false
+
+logging:
+  values:
+    elasticsearch:
+      master:
+        count: 1
+        persistence:
+          size: 5Gi
+        resources:
+          requests:
+            cpu: .5
+      data:
+        count: 1
+        persistence:
+          size: 5Gi
+        resources:
+          requests:
+            cpu: .5
+    kibana:
+      count: 1
+      resources:
+        requests:
+          cpu: 500m
+          memory: 1Gi
+
+monitoring:
+  enabled: true
+  values:
+    prometheus:
+      prometheusSpec:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits: {}
+    kube-state-metrics:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 32Mi
+        limits: {}
+    prometheus-node-exporter:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 30Mi
+        limits: {}
+
+fluentbit:
+  values:
+    securityContext:
+      privileged: true
+
+clusterAuditor:
+  values:
+    resources:
+      requests:
+        cpu: 100m
+        memory: .5Gi
+
+
+gatekeeper:
+  values:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+
+twistlock:
+  enabled: false
+  values:
+    console:
+      persistence:
+        size: 5Gi
